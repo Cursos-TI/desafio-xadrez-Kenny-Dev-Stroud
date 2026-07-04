@@ -1,68 +1,82 @@
 #include <stdio.h>
 
+// ---- DECLARAÇÃO DAS FUNÇÕES RECURSIVAS (Fora do main) ----
+
+// Função Recursiva para a Torre
+void moverTorre(int casas) {
+    if (casas > 0) {
+        printf("Direita\n");
+        moverTorre(casas - 1); // Chamada recursiva
+    }
+}
+
+// Função Recursiva para a Rainha
+void moverRainha(int casas) {
+    if (casas > 0) {
+        printf("Esquerda\n");
+        moverRainha(casas - 1); // Chamada recursiva
+    }
+}
+
+// Função Recursiva para o Bispo utilizando Loops Aninhados internamente
+// Conforme o requisito: loop externo (vertical) e interno (horizontal)
+void moverBispo(int casas) {
+    if (casas > 0) {
+        // Loop externo para o movimento vertical (Cima)
+        for (int v = 0; v < 1; v++) {
+            printf("Cima, ");
+            // Loop interno para o movimento horizontal (Direita)
+            for (int h = 0; h < 1; h++) {
+                printf("Direita\n");
+            }
+        }
+        moverBispo(casas - 1); // Chamada recursiva para a próxima casa
+    }
+}
+
+// ---- FUNÇÃO PRINCIPAL ----
 int main() {
-    // ---- CONFIGURAÇÕES INICIAIS ----
-    
-    // Definição das constantes de movimento (Requisito Funcional)
-    // Determinam quantas casas cada peça vai andar
+    // Definição das constantes de movimento
     const int MOVIMENTO_TORRE = 5;
     const int MOVIMENTO_BISPO = 5;
     const int MOVIMENTO_RAINHA = 8;
 
-    // Mensagem de boas-vindas do programa
     printf("### Bem-vindo ao Xadrez do Programador Bruxo ###\n\n");
 
-    // ---- 1. MOVIMENTAÇÃO DA TORRE (Usando WHILE) ----
+    // ---- 1. MOVIMENTAÇÃO DA TORRE (Recursiva) ----
     printf("### Movimentação da Torre ###\n");
-    
-    int i = 0; // Inicializa a variável de controle do loop da torre
-    
-    // O loop continua enquanto 'i' for menor que o limite da constante (5)
-    while (i < MOVIMENTO_TORRE) {
-        printf("Direita\n"); // Imprime a direção do movimento
-        i++; // Incrementa o contador para evitar um loop infinito
-    }
-    printf("\n"); // Linha em branco para organizar a saída
+    moverTorre(MOVIMENTO_TORRE);
+    printf("\n");
 
-    // ---- 2. MOVIMENTAÇÃO DO BISPO (Usando FOR) ----
+    // ---- 2. MOVIMENTAÇÃO DO BISPO (Recursiva + Loops Aninhados) ----
     printf("### Movimentação do Bispo ###\n");
-    
-    // O loop FOR inicializa 'j', testa a condição (< 5) e incrementa a cada passo
-    // Ideal para quando já sabemos o número exato de repetições
-    for (int j = 0; j < MOVIMENTO_BISPO; j++) {
-        printf("Cima, Direita\n"); // Imprime o movimento em diagonal
-    }
+    moverBispo(MOVIMENTO_BISPO);
     printf("\n");
 
-    // ---- 3. MOVIMENTAÇÃO DA RAINHA (Usando DO-WHILE) ----
+    // ---- 3. MOVIMENTAÇÃO DA RAINHA (Recursiva) ----
     printf("### Movimentação da Rainha ###\n");
-    
-    int k = 0; // Inicializa a variável de controle da rainha
-    
-    // O bloco DO-WHILE garante que o código execute pelo menos uma vez antes de testar a condição
-    do {
-        printf("Esquerda\n"); // Imprime a direção do movimento
-        k++; // Incrementa o contador
-    } while (k < MOVIMENTO_RAINHA); // Testa a condição no final (executa 8 vezes)
+    moverRainha(MOVIMENTO_RAINHA);
     printf("\n");
 
-    // ---- 4. MOVIMENTAÇÃO DO CAVALO (Loops Aninhados) ----
+    // ---- 4. MOVIMENTAÇÃO DO CAVALO (Loops Complexos com Múltiplas Condições) ----
     printf("### Movimentação do Cavalo ###\n");
     
-    int MOVIMENTACAO_CAVALO = 1; // Define que a jogada do cavalo ocorre apenas 1 vez
-    
-    // O loop WHILE consome o valor (1) e decrementa para 0. 
-    // Como 0 é considerado 'falso' em C, o loop roda apenas uma vez.
-    while(MOVIMENTACAO_CAVALO--){
-        
-        // Loop interno FOR: faz o cavalo andar 2 casas para cima
-        for (int i = 0; i < 2; i++) {
+    // Loop complexo usando múltiplas variáveis e controle de fluxo (break/continue)
+    for (int i = 0, j = 0; i < 3; i++) {
+        // Condição complexa para simular as duas casas para Cima
+        if (i < 2) {
             printf("Cima\n");
+            continue; // Pula o restante do loop e vai para a próxima iteração vertical
         }
         
-        // Após andar para cima, executa o movimento lateral para completar o "L"
-        printf("Direita\n");
+        // Loop aninhado interno para a casa para a Direita
+        while (j < 1) {
+            printf("Direita\n");
+            j++;
+            break; // Interrompe o loop interno de forma precisa
+        }
     }
+    printf("\n");
 
-    return 0; // Indica que o programa terminou com sucesso
+    return 0;
 }
